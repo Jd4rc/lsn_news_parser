@@ -1,9 +1,4 @@
-from dotenv import load_dotenv
-import os
-
-load_dotenv('.env')
-
-NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+from src.config import NEWS_API_KEY
 
 def _build_query(
     include_keywords: list[str],
