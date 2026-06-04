@@ -13,11 +13,16 @@ def _build_query(
 
     return ' '.join(query)
 
+
 def fetch_articles(
     date: str,
     include_keywords: list[str],
     exclude_keywords: list[str],
 ) -> list[dict]:
+    if NEWS_API_KEY is None:
+        raise ValueError('NEWS_API_KEY not set')
+
+
     url = 'https://newsapi.org/v2/everything'
 
     query = _build_query(
@@ -32,7 +37,14 @@ def fetch_articles(
         'to': date,
     }
 
-    response.
+    response = requests.get(
+        url,
+        params=params,
+        timeout=10
+    )
+    response.raise_for_status()
 
-    return None
+    data = response.json()
+
+    return data.get('articles', [])
 
