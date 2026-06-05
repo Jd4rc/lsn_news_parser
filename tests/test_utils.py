@@ -44,6 +44,11 @@ def test_normalize_articles_with_missing_fields():
         }
     ]
 
+def test_normalize_articles_with_empty_list():
+    result = normalize_articles([])
+
+    assert result == []
+
 @patch('src.utils.date')
 def test_get_today_date(mock_date):
     mock_date.today.return_value = date(2026, 6, 4)
