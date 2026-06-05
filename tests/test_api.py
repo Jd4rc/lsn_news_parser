@@ -1,5 +1,5 @@
 from unittest.mock import patch
-
+import pytest
 from src.api import _build_query, fetch_articles
 
 def test_build_query_with_include_keywords():
@@ -66,3 +66,12 @@ def test_fetch_articles(mock_get):
         },
         timeout=10
     )
+
+@patch('src.api.NEWS_API_KEY', None)
+def test_fetch_articles_without_api_key():
+    with pytest.raises(ValueError, match='NEWS_API_KEY not set'):
+        fetch_articles(
+            '2026-06-04',
+            ['python'],
+            [],
+        )
