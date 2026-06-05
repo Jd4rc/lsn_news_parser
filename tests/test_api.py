@@ -7,3 +7,11 @@ def test_build_query_with_include_keywords():
     )
 
     assert result == 'python'
+
+def test_build_query_with_exclude_keywords():
+    result = _build_query(
+        ['python'],
+        ['ai']
+    )
+
+    assert result == 'python -ai'
