@@ -1,5 +1,5 @@
 import json
-
+import logging
 from src.file_manager import generate_filename
 from src.file_manager import save_articles
 
@@ -42,3 +42,29 @@ def test_save_articles(tmp_path, monkeypatch):
     )
 
     assert save_article == articles
+
+def test_save_articles_logging(tmp_path, monkeypatch, caplog):
+    data_dir = tmp_path / 'data'
+    data_dir.mkdir()
+
+    monkeypatch.setattr(
+        'src.file_manager.BASE_DIR',
+        tmp_path
+    )
+
+    articles = [
+        {
+            'author': 'John',
+            'description': 'Text',
+            'title': 'Python',
+            'url': 'https://example.com',
+        }
+    ]
+
+    with caplog.at_level(logging.INFO):
+        save_articles(
+            articles,
+            'news_2026-06-04.json'
+        )
+    assert 'Saving articles to' in caplog.text
+    assert 'Successfully saved 1 articles' in caplog.text
