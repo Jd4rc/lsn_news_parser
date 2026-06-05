@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from datetime import datetime
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,3 +12,8 @@ def save_articles(
 
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(articles, f, ensure_ascii=False, indent=4)
+
+def generate_filename(date:str) -> str:
+    return (
+        f'news_{date}.json'
+    )
