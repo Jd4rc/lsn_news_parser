@@ -22,3 +22,22 @@ def test_normalize_articles():
             'url': 'https://example.com',
         }
     ]
+
+
+def test_normalize_articles_with_missing_fields():
+    articles = [
+        {
+            'author': 'John',
+        }
+    ]
+
+    result = normalize_articles(articles)
+
+    assert result == [
+        {
+            'author': 'John',
+            'description': None,
+            'title': None,
+            'url': None,
+        }
+    ]
