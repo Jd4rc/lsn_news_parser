@@ -1,4 +1,6 @@
-from src.utils import normalize_articles
+from src.utils import normalize_articles, get_today_date
+from unittest.mock import patch
+from datetime import date
 
 def test_normalize_articles():
     articles = [
@@ -41,3 +43,11 @@ def test_normalize_articles_with_missing_fields():
             'url': None,
         }
     ]
+
+@patch('src.utils.date')
+def test_get_today_date(mock_date):
+    mock_date.today.return_value = date(2026, 6, 4)
+
+    result = get_today_date()
+
+    assert result == '2026-06-04'
