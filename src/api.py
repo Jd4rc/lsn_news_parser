@@ -1,5 +1,5 @@
 import requests
-from src.config import NEWS_API_KEY
+from src.config import NEWS_API_KEY, logger
 
 
 def _build_query(
@@ -37,14 +37,27 @@ def fetch_articles(
         'to': date,
     }
 
-    response = requests.get(
-        url,
-        params=params,
-        timeout=10
+    logger.info(
+        f'Fetching articles for query: {query}'
     )
-    response.raise_for_status()
+    try:
 
-    data = response.json()
+        response = requests.get(
+            url,
+            params=params,
+            timeout=10
+        )
+        response.raise_for_status()
 
+        data = response.json()
+
+        logger.info(
+            f'Fetched {len(data.get("articles", []))} articles'
+        )
+    except requests.exceptions.RequestException as err:
+        logger.error(
+            f'NewsAPI request failed: {err}'
+        )
+        raise
     return data.get('articles', [])
 
